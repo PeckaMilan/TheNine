@@ -36,12 +36,7 @@ class ThreeDCardGenerator:
 
         export_stl(part, str(stl_path))
 
-        try:
-            from build123d import export_3mf
-
-            export_3mf(part, str(threemf_path))
-        except (ImportError, Exception):
-            threemf_path = self._export_3mf_via_trimesh(stl_path, threemf_path)
+        self._export_3mf_via_lib3mf(stl_path, threemf_path)
 
         paths = {"stl": stl_path}
         if threemf_path.exists():
@@ -117,15 +112,39 @@ class ThreeDCardGenerator:
 
         return card.part
 
-    def _export_3mf_via_trimesh(self, stl_path: Path, threemf_path: Path) -> Path:
-        """Export 3MF using trimesh as fallback."""
-        try:
-            import trimesh
+    def _export_3mf_via_lib3mf(self, stl_path: Path, threemf_path: Path) -> Path:
+        """Export 3MF using lib3mf (bundled with build123d)."""
+        import trimesh
+        from lib3mf import Lib3MF
 
-            mesh = trimesh.load(str(stl_path))
-            mesh.export(str(threemf_path), file_type="3mf")
-        except Exception:
-            pass
+        mesh = trimesh.load(str(stl_path))
+
+        wrapper = Lib3MF.Wrapper()
+        model = wrapper.CreateModel()
+        mesh_obj = model.AddMeshObject()
+        mesh_obj.SetName("business-card")
+
+        vertices = []
+        for v in mesh.vertices:
+            pos = Lib3MF.Position()
+            pos.Coordinates[0] = float(v[0])
+            pos.Coordinates[1] = float(v[1])
+            pos.Coordinates[2] = float(v[2])
+            vertices.append(pos)
+
+        triangles = []
+        for f in mesh.faces:
+            tri = Lib3MF.Triangle()
+            tri.Indices[0] = int(f[0])
+            tri.Indices[1] = int(f[1])
+            tri.Indices[2] = int(f[2])
+            triangles.append(tri)
+
+        mesh_obj.SetGeometry(vertices, triangles)
+        model.AddBuildItem(mesh_obj, wrapper.GetIdentityTransform())
+
+        writer = model.QueryWriter("3mf")
+        writer.WriteToFile(str(threemf_path))
         return threemf_path
 
     def validate(self, stl_path: Path) -> dict[str, object]:

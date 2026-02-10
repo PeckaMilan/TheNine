@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Features from '../components/Features.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+import siteData from '../content/data/site.json';
+---
+
+<Base title={siteData.name} description={siteData.description}>
+  <Hero
+    name={siteData.name}
+    tagline={siteData.tagline}
+    ctaText={siteData.cta.text}
+    ctaUrl={siteData.cta.url}
+  />
+  <Features features={siteData.features} />
+  <Contact contact={siteData.contact} social={siteData.social} />
+  <Footer name={siteData.name} />
+</Base>

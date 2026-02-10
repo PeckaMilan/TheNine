@@ -1,0 +1,36 @@
+{
+  "name": "Brand Name",
+  "tagline": "Your tagline here",
+  "description": "A brief description of the brand and what it does.",
+  "features": [
+    {
+      "title": "Lightning Fast",
+      "description": "Built for performance from the ground up with modern technologies.",
+      "icon": "rocket"
+    },
+    {
+      "title": "Secure by Default",
+      "description": "Enterprise-grade security baked into every layer of the stack.",
+      "icon": "shield"
+    },
+    {
+      "title": "Easy to Use",
+      "description": "Intuitive interface that gets out of your way and lets you focus.",
+      "icon": "zap"
+    }
+  ],
+  "contact": {
+    "email": "hello@example.com",
+    "phone": "",
+    "address": ""
+  },
+  "social": {
+    "github": "",
+    "twitter": "",
+    "linkedin": ""
+  },
+  "cta": {
+    "text": "Get Started",
+    "url": "#contact"
+  }
+}

@@ -1,0 +1,20 @@
+---
+interface Props {
+  name: string;
+}
+
+const { name } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-brand-secondary/10 bg-brand-dark text-white/60 py-8">
+  <div class="mx-auto max-w-5xl px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="font-heading font-semibold text-white/80">{name}</p>
+    <p class="text-sm">
+      &copy; {year} {name}. All rights reserved.
+    </p>
+    <p class="text-xs text-white/40">
+      Powered by <a href="https://github.com/PeckaMilan/TheNine" target="_blank" rel="noopener noreferrer" class="hover:text-white/60 transition-colors">TheNine</a>
+    </p>
+  </div>
+</footer>
